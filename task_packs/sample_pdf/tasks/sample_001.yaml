@@ -1,0 +1,14 @@
+id: sample_001
+prompt: |
+  Using the attached document, what is the title on the first page?
+  Answer with only the title text.
+attachments:
+  - attachments/sample_001.pdf
+rubrics:
+  - id: r1
+    criterion: The response should state the exact title shown on the first page.
+  - id: r2
+    criterion: The response should avoid inventing a title that is not in the document.
+metadata:
+  source_visibility: public_sample
+  domain: document_reading

@@ -1,0 +1,19 @@
+id: sample_002
+prompt: |
+  Using the attached parts invoice, answer both questions:
+  1. What is the part number for the Transformer Assembly?
+  2. What is the total cost of the Ignition Module Kit line item (quantity x unit price)?
+attachments:
+  - attachments/sample_002.pdf
+rubrics:
+  - id: r1
+    criterion: The response should state the part number for the Transformer Assembly as 60536.
+  - id: r2
+    criterion: The response should compute the Ignition Module Kit line total as $177.00 (2 x $88.50).
+  - id: r3
+    criterion: The response should avoid reporting the Ignition Module Kit unit price ($88.50) as the line total.
+  - id: r4
+    criterion: The response should avoid inventing part numbers that do not appear in the invoice.
+metadata:
+  source_visibility: public_sample
+  domain: document_reading

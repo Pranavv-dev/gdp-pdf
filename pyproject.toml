@@ -1,0 +1,25 @@
+[project]
+name = "gdp-pdf"
+version = "0.1.0"
+description = "GDP.pdf benchmark as an Inspect AI task"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    # Inspect handles model calls, retries, concurrency, logging/transcripts,
+    # and resume, so the benchmark is just a dataset + a scorer. The floor
+    # guarantees PDF support via `ContentDocument`.
+    "inspect-ai>=0.3.244",
+    # Provider SDKs for the models/judges referenced in the README.
+    "anthropic",
+    "google-genai",
+    "openai",
+    # Primary dataset source: surgeai/GDP.pdf (parquet + PDFs via Git LFS).
+    "datasets",
+    "huggingface-hub",
+    # Local offline task packs are YAML.
+    "pyyaml",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"

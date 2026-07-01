@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+
+# Run outputs and caches
+runs/
+logs/
+pdf_cache/
+
+# Secrets
+.env
+
+# Held-out benchmark data materialized locally (eval-only; never commit)
+task_packs/official_*/
+
+# macOS
+.DS_Store

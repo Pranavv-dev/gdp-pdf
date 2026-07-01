@@ -1,0 +1,5 @@
+name: sample_pdf
+description: Public placeholder pack for local dry-run development.
+tasks:
+  - tasks/sample_001.yaml
+  - tasks/sample_002.yaml
