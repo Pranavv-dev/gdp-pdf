@@ -38,6 +38,7 @@ def load_samples(
     split: str = "test",
     task_pack: str | None = None,
     limit: int | None = None,
+    hf_revision: str | None = None,
 ) -> MemoryDataset:
     """Build the dataset from whichever source is configured.
 
@@ -50,7 +51,7 @@ def load_samples(
             samples = samples[:limit]
     elif hf_repo is not None:
         # Pass the limit down so we stop before downloading unneeded PDFs.
-        samples = _samples_from_hf(hf_repo, split, limit)
+        samples = _samples_from_hf(hf_repo, split, limit, hf_revision)
     else:
         raise ValueError("provide either `hf_repo` or `task_pack`")
     return MemoryDataset(samples=samples, name="gdp_pdf")
@@ -85,6 +86,7 @@ def _samples_from_hf(
     hf_repo: str,
     split: str,
     limit: int | None = None,
+    revision: str | None = None,
 ) -> list[Sample]:
     """Load + validate tasks from the Hugging Face parquet dataset.
 
@@ -95,7 +97,7 @@ def _samples_from_hf(
     from datasets import load_dataset
     from huggingface_hub import hf_hub_download
 
-    rows = load_dataset(hf_repo, split=split)
+    rows = load_dataset(hf_repo, split=split, revision=revision)
     if limit is not None:
         rows = rows.select(range(min(limit, len(rows))))
 
@@ -108,6 +110,7 @@ def _samples_from_hf(
                 repo_id=hf_repo,
                 filename=pdf_rel,
                 repo_type="dataset",
+                revision=revision,
                 cache_dir=str(PDF_CACHE_DIR),
             )
         )

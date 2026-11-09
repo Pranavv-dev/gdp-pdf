@@ -18,6 +18,7 @@ dependencies = [
     "huggingface-hub",
     # Local offline task packs are YAML.
     "pyyaml",
+    "inspect-swe==0.2.66",
 ]
 
 [build-system]

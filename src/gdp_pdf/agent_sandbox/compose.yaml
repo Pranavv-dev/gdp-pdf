@@ -1,0 +1,8 @@
+services:
+  default:
+    build: .
+    init: true
+    command: tail -f /dev/null
+    working_dir: /workspace
+    cpus: 1
+    mem_limit: 4gb
