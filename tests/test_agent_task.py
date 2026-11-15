@@ -28,7 +28,10 @@ def seen():
     return score
 
 
-def test_answer_file_becomes_output(tmp_path):
+def test_answer_file_becomes_output(tmp_path, monkeypatch):
+    # compose.yaml mounts the pinned Claude Code binary dir; any dir will do here.
+    (tmp_path / "bin").mkdir()
+    monkeypatch.setenv("CLAUDE_BIN_DIR", str(tmp_path / "bin"))
     pdf = tmp_path / "doc.pdf"
     pdf.write_bytes(b"%PDF-1.4 test")
     task = Task(

@@ -6,3 +6,11 @@ services:
     working_dir: /workspace
     cpus: 1
     mem_limit: 4gb
+    # Same pinned Claude Code binary Harbor bind-mounts for its runs.
+    volumes:
+      - ${CLAUDE_BIN_DIR:?set CLAUDE_BIN_DIR to the pinned Claude Code dir}:/root/.local/bin:ro
+    # Passed in from the host here, not per command: Inspect logs the env of
+    # every sandbox command, and the key must stay out of the logs.
+    environment:
+      - ANTHROPIC_API_KEY
+      - ANTHROPIC_BASE_URL
