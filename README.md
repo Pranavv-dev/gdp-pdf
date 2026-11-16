@@ -84,3 +84,31 @@ Structural tests (no network/keys) run via:
 ```bash
 uv run python tests/test_offline.py
 ```
+
+## Harbor parity (agent mode)
+
+This fork adds `src/gdp_pdf/agent_task.py@gdp_pdf_agent` for parity with the
+[Harbor adapter](https://github.com/harbor-framework/adapters/tree/main/src/gdp-pdf).
+Each task runs in a Docker sandbox, and Claude Code is launched exactly the way
+Harbor 0.25.0's `claude-code` agent launches it (same binary, env vars, setup and
+command). Whatever the agent writes to `/workspace/answer.md` is graded by the
+unchanged `rubric_scorer`.
+
+Needs:
+- `CLAUDE_BIN_DIR`: a directory holding the official linux-arm64 `claude`
+  binary, version 2.1.311. It is mounted read-only into the sandbox.
+- `ANTHROPIC_API_KEY`, `ANTHROPIC_BASE_URL`: for the agent.
+- `PPAPI_API_KEY`, `PPAPI_BASE_URL`: for the judge (`openai-api/ppapi/...`).
+
+Run the 30-task parity subset (`parity_subset.tsv`: Harbor name, upstream id):
+
+```bash
+uv run inspect eval src/gdp_pdf/agent_task.py@gdp_pdf_agent \
+  --model anthropic/claude-haiku-4-5 \
+  -T agent_model=claude-haiku-4-5 -T agent_version=2.1.311 \
+  -T judge_model=openai-api/ppapi/gemini-3.5-flash \
+  --max-samples 1 --sample-id "$(cut -f2 parity_subset.tsv | paste -sd, -)"
+```
+
+Inspect reports `all_pass` and `mean_criteria`; the parity runs report both as
+percentages, with one Inspect run per parity run.
